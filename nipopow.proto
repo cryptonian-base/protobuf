@@ -1,0 +1,118 @@
+
+syntax = "proto3";
+
+package nipopow;
+
+service NiPoPoW {
+  rpc GetProof(ProofRequestInfo) returns (ProofResponse) {}
+}
+
+message ProofRequestInfo {
+  enum ProofType {
+    CHAIN = 0;
+    BLOCK = 1;
+    TRANSACTION = 2;
+    ACCOUNT = 3;
+  }
+  ProofType proofType = 1;
+}
+
+message GetBlockProof {
+  string blockHashToProve = 1;
+  string knownBlockHash = 2;
+}
+
+message GetTransactionsProof {
+  int32 addressMaxCount = 1;
+  repeated string addresses = 2;
+  string blockHash = 3;
+}
+
+message GetAccountsProof {
+  int32 addressMaxCount = 1;
+  repeated string addresses = 2;
+  string blockHash = 3;
+}
+
+message ProofResponse {
+  string proofJson = 1;
+}
+
+message ChainProof {
+  int32 serializedSize = 1;
+  BlockChain prefix = 2;
+  HeaderChain suffix = 3;
+  BlockHeader head = 4;
+}
+
+message BlockChain {
+  int32 serializedSize = 1;
+  int32 length = 2;
+  repeated Block blocks = 3;
+  Block head = 4;
+  Block tail = 5;
+}
+
+message HeaderChain {
+  int32 serializedSize = 1;
+  int32 length = 2;
+  repeated BlockHeader headers = 3;
+  BlockHeader head = 4;
+  BlockHeader tail = 5;
+}
+
+message BlockHeader {
+  int32 serializedSize = 1;
+  int32 version = 2;
+  string prevHash = 3;
+  string interlinkHash = 4;
+  string bodyHash = 5;
+  string accountsHash = 6;
+  int32  nBits = 7;
+  int64  target = 8;
+  int64  difficulty = 9;
+  int32  height = 10;
+  int32  timestamp = 11;
+  int32  nonce = 12;
+}
+
+message Block {
+  int32 serializedSize = 1;
+  BlockHeader  header = 2;
+  BlockInterlink  interlink = 3;
+  BlockBody body = 4;
+  int32 version = 5;
+  string prevHash = 6;
+  string bodyHash = 7;
+  string accountsHash = 8;
+  int32  nBits = 9;
+  int64  target = 10;
+  int64  difficulty = 11;
+  int32  height = 12;
+  int32  timestamp = 13;
+  int32  nonce = 14;
+  string minerAddr = 15;
+  repeated Transaction transactions = 16;
+  int32  transactionCount = 17;
+}
+
+message BlockInterlink {
+  int32 serializedSize = 1;
+  repeated string hashes = 2;
+  int32 length = 3;
+}
+
+message BlockBody {
+  int32 serializedSize = 1;
+  repeated uint32 extraData = 2;
+  string minerAddr = 3;
+  repeated Transaction transactions = 4;
+  int32 transactionCount = 5;
+  repeated PrunedAccount prunedAccounts = 6;
+}
+
+message Transaction {
+}
+
+message PrunedAccount {
+}
