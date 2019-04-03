@@ -5,6 +5,11 @@ package nipopow;
 
 service NiPoPoW {
   rpc GetProof(ProofRequestInfo) returns (ProofResponse) {}
+  
+  rpc RequestChainProof() returns (ProofResponse) {}
+  rpc RequestBlockProof(GetBlockProof) returns (ProofResponse) {}
+  rpc RequestTransactionProof (GetTransactionsProof) returns (ProofResponse) {}
+  rpc RequestAccountsProof (GetAccountsProof) returns (ProofResponse) {}
 }
 
 message ProofRequestInfo {
