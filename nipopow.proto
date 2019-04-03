@@ -112,7 +112,37 @@ message BlockBody {
 }
 
 message Transaction {
+  int32 serializedContentSize = 1;
+  int32 serializedSize = 2;
+  string sender = 3;
+  uint32 senderType = 4;
+  string recipient = 5;
+  int32 recipientType = 6;
+  int32 value = 7;
+  int32 fee = 8;
+  int32 feePerByte = 9;
+  int32 networkId = 10;
+  int32 validityStartHeight = 11;
+  int32 flags = 12;
+  repeated int32 data = 13;
+  repeated int32 proof = 14;
 }
 
 message PrunedAccount {
+  int32 serializedSize = 0;
+  string address = 1;
+  Account account = 2;
 }
+
+message Account {
+  int32 serializedSize = 0;
+  enum TYPE = {
+    BASIC = 0,
+    VESTING = 1,
+    HTLC = 2
+  }
+  TYPE type = 1;
+  uint32 balance = 2;
+  
+}
+
